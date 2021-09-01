@@ -14,6 +14,9 @@ class BinaryPlane:
 
     def add_points(self, points: set[Point]):
         self.active_points = self.active_points.union(points)
+
+    def clean_plane(self):
+        self.active_points = set()
         
     def __str__(self):
         matrix_representation = [[0 for _ in range(self.size)] for _ in range(self.size)]
@@ -40,26 +43,4 @@ class BinaryPlane:
 
 
 if __name__ == "__main__":
-    size = 36
-    refresh = 1/60
-    duration = 5
-    frames = int(duration * (1 / refresh))
-    n_rotations = 3
-    plane = BinaryPlane(size)
-    a = Point(17, 3)
-    b = Point(8, 29)
-    c = Point(28, 29)
-    center = Point(17, 17)
-    triangle = Triangle(a, b, c)
-    plane.add_points(triangle.get_points())
-    plane.pretty_print_points()
-    steps = [3.14 * 2 * n_rotations / frames for i in range(1, frames + 1)]
-    for n in steps:
-        plane = BinaryPlane(size)
-        a.apply_rotation(n, center)
-        b.apply_rotation(n, center)
-        c.apply_rotation(n, center)
-        triangle = Triangle(a, b, c)
-        plane.add_points(triangle.get_points())
-        print(plane)
-        time.sleep(refresh)
+    pass
