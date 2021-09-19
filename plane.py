@@ -5,6 +5,7 @@ class BinaryPlane:
     def __init__(self, size: int):
         self.size: int = size
         self.active_points: {Point} = set([])
+        self.matrix_representation: list = []
 
     def add_shape(self, shape: 'Shape'):
         pass
@@ -17,20 +18,23 @@ class BinaryPlane:
 
     def clean_plane(self):
         self.active_points = set()
-        
-    def __str__(self):
+
+    def project_points(self):
         matrix_representation = [[0 for _ in range(self.size)] for _ in range(self.size)]
         for point in self.active_points:
             x = round(point.x)
             y = round(point.y)
             if 0 <= x < self.size and 0 <= y < self.size:
                 matrix_representation[x][y] = 1
-        result = ""
+        self.matrix_representation = matrix_representation
+        
+    def __str__(self):
+        result = []
         for i in range(self.size):
             for j in range(self.size):
-                result += " @" if matrix_representation[j][i] else " ."
-            result += "\n"
-        return result
+                result += [" @" if self.matrix_representation[j][i] else " ."]
+            result += ["\n"]
+        return "".join(result)
 
     def pretty_print_points(self):
         points = sorted(sorted(list([Point(round(p.x), round(p.y)) for p in self.active_points]), key= lambda x: x.y))

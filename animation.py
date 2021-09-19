@@ -1,6 +1,6 @@
 from plane import BinaryPlane
 from shapes import Triangle, Point
-import time
+import time, random
 
 class CommandLineAnimation:
     def __init__(self, 
@@ -19,23 +19,27 @@ class CommandLineAnimation:
         a, b, c = triangle.a, triangle.b, triangle.c
         steps = [3.14 * 2 * n_rotations / self.n_frames for i in range(1, self.n_frames + 1)]
         self.plane.add_points(triangle.get_points())
+        self.plane.project_points()
         print(self.plane)
         for n in steps:
             self.plane.clean_plane()
             a.apply_rotation(n, rotation_center), b.apply_rotation(n, rotation_center), c.apply_rotation(n, rotation_center)
             triangle = Triangle(a, b, c)
             self.plane.add_points(triangle.get_points())
+            self.plane.project_points()
             print(self.plane)
             time.sleep(1 / self.refresh_rate)
             
 
 
 if __name__ == "__main__":
+    start_time = time.time()
     plane = BinaryPlane(36)
-    a = Point(17, 3)
-    b = Point(8, 29)
-    c = Point(28, 29)
+    a = Point(random.randint(1, 35), random.randint(1, 35))
+    b = Point(random.randint(1, 35), random.randint(1, 35))
+    c = Point(random.randint(1, 35), random.randint(1, 35))
     center = Point(17, 17)
     triangle = Triangle(a, b, c)
-    animation = CommandLineAnimation(plane, refresh_rate=60)
+    animation = CommandLineAnimation(plane)
     animation.triangle_rotation(triangle, 3, center)
+    print(f"Time {time.time() - start_time}")
